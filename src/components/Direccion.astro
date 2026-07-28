@@ -1,0 +1,151 @@
+---
+// Direccion.astro
+---
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📍 CEREMONIA / DIRECCIÓN - ESTILO TEXAS / VAQUERO           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 pt-0 pb-10" style="color:#5C4033;">
+
+  <!-- 🌿 Hoja lateral derecha -->
+  <img
+    src="/imagenes/hojalateral.png"
+    alt="" aria-hidden="true"
+    class="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
+    id="dir-hoja-der"
+  />
+
+  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
+
+    <!-- 🔝 Imagen separador (arriba) -->
+    <div class="mb-5" id="dir-separador">
+      <img
+        src="/imagenes/separador.png"
+        alt=""
+        aria-hidden="true"
+        class="w-32 sm:w-40 h-auto object-contain mx-auto"
+      />
+    </div>
+
+    <!-- 🏷️ Título -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.12em] text-xl sm:text-xl" id="dir-titulo" style="color:#5C4033;">
+      Recepción Social
+    </h2>
+
+    <!-- 🖼️ Imagen recepción (tintada) -->
+    <div class="mt-3 mb-5" id="dir-imagen">
+      <div class="img-recepcion w-20 h-20 sm:w-24 sm:h-24 mx-auto" role="img" aria-label="Recepción"></div>
+    </div>
+
+    <!-- 🏛️ Lugar -->
+    <div class="mb-1" id="dir-info">
+      <p class="font-cormorant uppercase font-semibold tracking-wide text-xl sm:text-2xl" style="color:#5C4033;">
+        Cabaña &ldquo;La Tía&rdquo;
+      </p>
+      <p class="font-cormorant text-xl mt-1" style="color:#9C7B58;">
+        Complejo Carcaje, Tolata
+      </p>
+    </div>
+
+    <!-- 🕔 Hora -->
+    <p class="font-cormorant font-semibold text-xl sm:text-2xl mb-3" id="dir-hora" style="color:#A9713F;">
+      14:00 hrs
+    </p>
+
+    <!-- 🔘 Botón ver ubicación -->
+    <div id="dir-boton">
+      <a
+        href="https://maps.app.goo.gl/giT1Mwni152poMVT7"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-ubicacion inline-block font-cormorant uppercase tracking-[0.18em] text-sm sm:text-base font-semibold px-8 py-2.5"
+      >
+        Ver Ubicación
+      </a>
+    </div>
+
+    <!-- ✦ Estrella separadora -->
+    <div class="flex items-center justify-center gap-3 w-full max-w-[200px] mx-auto mt-8" id="dir-sep">
+      <span class="sep-linea sep-linea-izq" aria-hidden="true"></span>
+      <span class="sep-estrella" aria-hidden="true">✦</span>
+      <span class="sep-linea sep-linea-der" aria-hidden="true"></span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#dir-separador", "#dir-titulo", "#dir-imagen", "#dir-info", "#dir-hora", "#dir-boton", "#dir-sep"];
+
+      gsap.set(elementos, { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#dir-separador",
+        start: "top 85%",
+        onEnter: () => {
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.12 });
+        },
+        onLeaveBack: () => {
+          gsap.to(elementos, { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" });
+        },
+      });
+
+      // Leve flotación continua de la imagen
+      gsap.to("#dir-imagen .img-recepcion", { y: -5, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1 });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Imagen de recepción tintada (beige) */
+  .img-recepcion {
+    background-color: #9C7B58;
+    -webkit-mask: url("/imagenes/recepcion.png") center / contain no-repeat;
+    mask: url("/imagenes/recepcion.png") center / contain no-repeat;
+  }
+
+  /* Botón ver ubicación */
+  .btn-ubicacion {
+    color: #FFF8F0;
+    border: 1.5px solid #9C7B58;
+    border-radius: 9999px;
+    background: #9C7B58;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+  .btn-ubicacion:hover {
+    background: #8B6B4A;
+    border-color: #8B6B4A;
+    transform: translateY(-2px);
+  }
+
+  /* Separador con estrella */
+  .sep-linea {
+    flex: 1 1 0%;
+    height: 1px;
+    opacity: 0.6;
+  }
+  .sep-linea-izq { background: linear-gradient(to right, transparent, #A9713F); }
+  .sep-linea-der { background: linear-gradient(to left, transparent, #A9713F); }
+  .sep-estrella {
+    color: #A9713F;
+    font-size: 0.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

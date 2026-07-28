@@ -1,0 +1,152 @@
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 📅 FECHA DEL EVENTO - ESTILO TEXAS / VAQUERO                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden pt-0 pb-10 px-4 -mt-4" style="color:#5C4033;">
+  <div class="max-w-md mx-auto text-center relative flex flex-col items-center">
+
+    <!-- ✦ Ornamento superior -->
+    <div class="flex items-center justify-center gap-2 w-full max-w-[180px] mx-auto mb-5 relative z-10" id="fecha-orn">
+      <span class="sep-linea sep-linea-izq" aria-hidden="true"></span>
+      <span class="sep-estrella" aria-hidden="true">✦</span>
+      <span class="sep-linea sep-linea-der" aria-hidden="true"></span>
+    </div>
+
+    <!-- 💌 Invitación -->
+    <p class="font-cormorant text-lg sm:text-xl leading-relaxed mb-7 relative z-10 max-w-sm mx-auto" id="texto-invitacion" style="color:#5C4033;">
+      Decidimos unir nuestras vidas en matrimonio y queremos que sean parte de este día tan especial para nosotros.
+    </p>
+
+    <!-- 📅 Fecha con líneas arriba y abajo -->
+    <div class="relative z-10 w-full" id="fecha-evento">
+      <div class="relative flex items-center justify-center gap-5 md:gap-7">
+
+        {/* 🌿 Hojas laterales — comentadas (rehabilitar quitando estas marcas)
+        <img
+          src="/imagenes/hojaspeque.png"
+          alt="" aria-hidden="true"
+          class="pointer-events-none select-none absolute left-0 top-[42%] -translate-y-1/2 -ml-8 sm:-ml-14 w-14 sm:w-20 h-auto object-contain opacity-80 z-0"
+          id="hoja-fecha-izq"
+        />
+        <img
+          src="/imagenes/hojaspeque.png"
+          alt="" aria-hidden="true"
+          class="pointer-events-none select-none absolute right-0 top-[42%] -translate-y-1/2 -mr-8 sm:-mr-14 w-14 sm:w-20 h-auto object-contain opacity-80 z-0 scale-x-[-1]"
+          id="hoja-fecha-der"
+        />
+        */}
+
+        <!-- SÁBADO -->
+        <div class="flex flex-col items-center w-24 md:w-28">
+          <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
+          <span class="font-cormorant text-base md:text-lg uppercase tracking-[0.18em] font-medium text-center my-2 pl-[0.18em]" style="color:#5C4033;">
+            Viernes
+          </span>
+          <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
+        </div>
+
+        <!-- 22 -->
+        <div class="flex items-center justify-center min-w-[64px] md:min-w-[80px]">
+          <span class="numero-dia font-cormorant font-medium leading-none" style="color:#A9713F;">04</span>
+        </div>
+
+        <!-- AGOSTO -->
+        <div class="flex flex-col items-center w-24 md:w-28">
+          <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
+          <span class="font-cormorant text-base md:text-lg uppercase tracking-[0.18em] font-medium text-center my-2 pl-[0.18em]" style="color:#5C4033;">
+            Septiembre
+          </span>
+          <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
+        </div>
+      </div>
+
+      <!-- Año -->
+      <div class="-mt-1 flex justify-center" id="anio-evento">
+        <p class="font-cormorant num-lining text-2xl md:text-3xl tracking-[0.3em] font-medium pl-[0.3em]" style="color:#5C4033;">
+          2026
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#hoja-fecha-izq", { opacity: 0, x: -25 });
+      gsap.set("#hoja-fecha-der", { opacity: 0, x: 25 });
+      gsap.set("#fecha-orn", { opacity: 0, y: 15 });
+      gsap.set("#texto-invitacion", { opacity: 0, y: 20 });
+      gsap.set("#fecha-evento", { opacity: 0, scale: 0.92 });
+      gsap.set("#anio-evento", { opacity: 0, y: 15 });
+
+      ScrollTrigger.create({
+        trigger: "#texto-invitacion",
+        start: "top 85%",
+        onEnter: () => {
+          const tl = gsap.timeline();
+          tl.to("#fecha-orn", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" })
+            .to("#texto-invitacion", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
+            .to("#hoja-fecha-izq", { opacity: 0.8, x: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
+            .to("#hoja-fecha-der", { opacity: 0.8, x: 0, duration: 0.8, ease: "power2.out" }, "<")
+            .to("#fecha-evento", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, "-=0.5")
+            .to("#anio-evento", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
+        },
+        onLeaveBack: () => {
+          gsap.to("#fecha-orn, #texto-invitacion, #fecha-evento, #anio-evento, #hoja-fecha-izq, #hoja-fecha-der", {
+            opacity: 0, duration: 0.4, ease: "power2.in",
+          });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Número del día (protagonista) */
+  .numero-dia {
+    font-size: 3.75rem;
+    text-shadow: 0 4px 12px rgba(92, 64, 51, 0.15);
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
+
+  /* Números alineados (evita que el 4 / 0 bajen de la línea base) */
+  .num-lining {
+    font-variant-numeric: lining-nums tabular-nums;
+    font-feature-settings: "lnum" 1, "tnum" 1;
+  }
+  @media (min-width: 768px) {
+    .numero-dia { font-size: 4.5rem; }
+  }
+
+  /* Ornamento con estrella */
+  .sep-linea {
+    flex: 1 1 0%;
+    height: 1px;
+    opacity: 0.6;
+  }
+  .sep-linea-izq { background: linear-gradient(to right, transparent, #A9713F); }
+  .sep-linea-der { background: linear-gradient(to left, transparent, #A9713F); }
+  .sep-estrella {
+    color: #A9713F;
+    font-size: 0.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1rem; padding-right: 1rem; }
+  }
+</style>

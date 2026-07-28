@@ -1,0 +1,102 @@
+---
+// Despedida.astro
+---
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ✅ CONFIRMACIÓN / RSVP - ESTILO TEXAS / VAQUERO             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 pt-12 pb-6" style="color:#5C4033;">
+
+  <!-- 🌿 Hoja lateral derecha -->
+  <img
+    src="/imagenes/hojalateral.png"
+    alt="" aria-hidden="true"
+    class="pointer-events-none select-none absolute right-0 top-[38%] -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
+    id="desp-hoja"
+  />
+
+  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
+
+    <!-- Título -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.28em] text-xl pl-[0.28em]" id="desp-titulo" style="color:#5C4033;">
+      Confirmación
+    </h2>
+
+    <!-- Mensaje -->
+    <p class="font-cormorant text-lg leading-relaxed mt-5 max-w-sm mx-auto" id="desp-mensaje" style="color:#6B4A31;">
+      Agradecemos confirmar su asistencia antes del 16 de agosto.
+    </p>
+
+    <!-- Botón confirmar -->
+    <div class="mt-8" id="desp-boton">
+      <a
+        href="https://wa.me/59164191701?text=Me%20complace%20confirmar%20mi%20asistencia%20a%20la%20boda%20de%20Esteban%20y%20Micaela.%20Nos%20vemos%20el%20viernes%204%20de%20septiembre.%20%C2%A1Estar%C3%A9%20sin%20falta%21"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-confirmar inline-block font-cormorant uppercase tracking-[0.18em] text-sm sm:text-base font-semibold px-9 py-3"
+      >
+        Confirmar Asistencia
+      </a>
+    </div>
+
+    <!-- Adorno inferior -->
+    <div class="mt-10" id="desp-adorno" aria-hidden="true">
+      <svg viewBox="0 0 120 22" fill="none" class="w-28 h-auto mx-auto" style="opacity:0.7;">
+        <path d="M6 11 Q 30 1, 50 11 Q 60 16, 70 11 Q 90 1, 114 11" stroke="#A9713F" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="60" cy="11" r="2.2" fill="#A9713F"/>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#desp-titulo", "#desp-mensaje", "#desp-boton", "#desp-adorno"];
+      gsap.set(elementos, { opacity: 0, y: 25 });
+      gsap.set("#desp-hoja", { opacity: 0, x: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#desp-titulo",
+        start: "top 85%",
+        onEnter: () => {
+          gsap.to("#desp-hoja", { opacity: 0.7, x: 0, y: 0, duration: 1, ease: "power2.out" });
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 });
+          gsap.to("#desp-boton a", { scale: 1.04, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.2 });
+        },
+        onLeaveBack: () => {
+          gsap.to([...elementos, "#desp-hoja"], { opacity: 0, duration: 0.4, ease: "power2.in" });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  .btn-confirmar {
+    color: #FFF8F0;
+    background: #9C7B58;
+    border-radius: 0.5rem;
+    box-shadow: 0 6px 16px rgba(92, 64, 51, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  .btn-confirmar:hover {
+    background: #8B6B4A;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+// FloresAbajo.astro
+---
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🙏 GRACIAS (CIERRE) - ESTILO TEXAS / VAQUERO               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 pt-0 pb-16" style="color:#5C4033;">
+
+  <!-- 🐎 Caballo abajo izquierda (detrás de todo) -->
+  <img
+    src="/imagenes/caballo.png"
+    alt="" aria-hidden="true"
+    class="pointer-events-none select-none absolute -bottom-4 -left-8 sm:-bottom-6 sm:-left-12 w-64 sm:w-80 h-auto object-contain z-0"
+    id="grx-caballo"
+  />
+
+  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
+
+    <!-- ¡Gracias! -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.12em] text-4xl sm:text-5xl" id="grx-titulo" style="color:#5C4033;">
+      ¡Gracias!
+    </h2>
+
+    <!-- Subtítulo -->
+    <p class="font-cormorant uppercase tracking-[0.25em] text-sm sm:text-base leading-relaxed mt-4 pl-[0.25em]" id="grx-sub" style="color:#8B6B4A;">
+      Por ser parte de<br />nuestro comienzo
+    </p>
+
+    <!-- Corazón -->
+    <svg class="w-6 h-6 mt-7" viewBox="0 0 24 24" fill="#A9713F" id="grx-corazon" aria-hidden="true">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#grx-titulo", "#grx-sub", "#grx-corazon"];
+      gsap.set(elementos, { opacity: 0, y: 25 });
+      gsap.set("#grx-caballo", { opacity: 0, x: -30 });
+
+      ScrollTrigger.create({
+        trigger: "#grx-titulo",
+        start: "top 88%",
+        onEnter: () => {
+          gsap.to("#grx-caballo", { opacity: 1, x: 0, duration: 1, ease: "power2.out", delay: 0.2 });
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 });
+          // Latido del corazón
+          gsap.to("#grx-corazon", { scale: 1.2, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1, transformOrigin: "center" });
+        },
+        onLeaveBack: () => {
+          gsap.to([...elementos, "#grx-caballo"], { opacity: 0, duration: 0.4, ease: "power2.in" });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  #grx-corazon { margin-left: auto; margin-right: auto; }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

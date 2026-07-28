@@ -1,0 +1,86 @@
+---
+// CodigoVestimenta.astro
+const paleta = ["#EBD9C0", "#C9A06B", "#A9713F", "#5C4033"];
+---
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 👔 CÓDIGO DE VESTIMENTA - ESTILO TEXAS / VAQUERO            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 py-12" style="color:#5C4033;">
+  <div class="max-w-md mx-auto text-center flex flex-col items-center">
+
+    <!-- Título -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.25em] text-xl sm:text-3xl pl-[0.25em]" id="dc-titulo" style="color:#5C4033;">
+      Dress Code
+    </h2>
+
+    <!-- Subtítulo -->
+    <p class="font-cormorant uppercase tracking-[0.4em] text-sm sm:text-base mt-3 pl-[0.4em]" id="dc-formal" style="color:#9C7B58;">
+      Formal
+    </p>
+
+    <!-- Paleta de colores -->
+    <div class="flex items-center justify-center gap-4 sm:gap-5 mt-8" id="dc-paleta">
+      {paleta.map((color) => (
+        <span class="dc-circulo" style={`background-color:${color};`} aria-hidden="true"></span>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set(["#dc-titulo", "#dc-formal"], { opacity: 0, y: 20 });
+      gsap.set(".dc-circulo", { opacity: 0, scale: 0 });
+
+      ScrollTrigger.create({
+        trigger: "#dc-titulo",
+        start: "top 85%",
+        onEnter: () => {
+          const tl = gsap.timeline();
+          tl.to(["#dc-titulo", "#dc-formal"], { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.12 })
+            .to(".dc-circulo", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)", stagger: 0.1 }, "-=0.2");
+        },
+        onLeaveBack: () => {
+          gsap.to(["#dc-titulo", "#dc-formal", ".dc-circulo"], { opacity: 0, duration: 0.4, ease: "power2.in" });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  .dc-circulo {
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(92, 64, 51, 0.15);
+    box-shadow: 0 4px 10px rgba(92, 64, 51, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .dc-circulo:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 8px 18px rgba(92, 64, 51, 0.25);
+  }
+  @media (min-width: 640px) {
+    .dc-circulo { width: 3.5rem; height: 3.5rem; }
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

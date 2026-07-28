@@ -1,0 +1,127 @@
+---
+// Itinerario.astro
+const eventos = [
+  { hora: "5:00 PM",  nombre: "Ceremonia",              icono: "/imagenes/iglesia.png" },
+  { hora: "6:00 PM",  nombre: "Coctel de Bienvenida",   icono: "/imagenes/brindis.png" },
+  { hora: "7:00 PM",  nombre: "Cena",                   icono: "/imagenes/cen.png" },
+  { hora: "8:30 PM",  nombre: "Primer Baile y Fiesta",  icono: "music" },
+  { hora: "12:00 AM", nombre: "Fin de la Noche",        icono: "/imagenes/tor.png" },
+];
+---
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🕒 CRONOGRAMA / ITINERARIO - ESTILO TEXAS / VAQUERO         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 pt-2 pb-10" style="color:#5C4033;">
+  <div class="max-w-md mx-auto px-4">
+
+    <!-- Línea superior -->
+    <div class="crono-regla mb-8" id="crono-regla-top" aria-hidden="true"></div>
+
+    <!-- Título -->
+    <h2 class="font-cormorant uppercase font-medium tracking-[0.3em] text-xl sm:text-2xl text-center mb-10 pl-[0.3em]" id="crono-titulo" style="color:#5C4033;">
+      Itinerario
+    </h2>
+
+    <!-- Eventos -->
+    <div class="flex flex-col gap-8 w-fit mx-auto" id="crono-lista">
+      {eventos.map((ev) => (
+        <div class="crono-item flex items-center gap-5 sm:gap-6">
+          <!-- Ícono -->
+          <div class="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
+            {ev.icono === "music" ? (
+              <svg viewBox="0 0 24 24" fill="#9C7B58" class="w-9 h-9 sm:w-10 sm:h-10">
+                <path d="M9 17.5a2.5 2.5 0 1 1-2.5-2.5c.55 0 1.06.18 1.5.47V5l10-2v10.5a2.5 2.5 0 1 1-2.5-2.5c.55 0 1.06.18 1.5.47V5.3L9 6.8v10.7z"/>
+              </svg>
+            ) : (
+              <div class="crono-icono w-full h-full" style={`-webkit-mask-image:url('${ev.icono}'); mask-image:url('${ev.icono}');`}></div>
+            )}
+          </div>
+
+          <!-- Divisor vertical -->
+          <span class="crono-linea" aria-hidden="true"></span>
+
+          <!-- Texto -->
+          <div class="text-left">
+            <p class="font-cormorant text-sm sm:text-base tracking-wide" style="color:#9C7B58;">{ev.hora}</p>
+            <p class="font-cormorant uppercase font-normal tracking-normal text-sm sm:text-base leading-snug" style="color:#5C4033;">{ev.nombre}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Línea inferior -->
+    <div class="crono-regla mt-8" id="crono-regla-bottom" aria-hidden="true"></div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set(["#crono-regla-top", "#crono-titulo", "#crono-regla-bottom"], { opacity: 0, y: 20 });
+      gsap.set(".crono-item", { opacity: 0, x: -40 });
+
+      ScrollTrigger.create({
+        trigger: "#crono-titulo",
+        start: "top 85%",
+        onEnter: () => {
+          const tl = gsap.timeline();
+          tl.to(["#crono-regla-top", "#crono-titulo"], { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.1 })
+            .to(".crono-item", { opacity: 1, x: 0, duration: 0.7, ease: "power2.out", stagger: 0.15 }, "-=0.3")
+            .to("#crono-regla-bottom", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.2");
+        },
+        onLeaveBack: () => {
+          gsap.to(["#crono-regla-top", "#crono-titulo", ".crono-item", "#crono-regla-bottom"], {
+            opacity: 0, duration: 0.4, ease: "power2.in",
+          });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Íconos tintados (beige) */
+  .crono-icono {
+    background-color: #9C7B58;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  /* Divisor vertical entre ícono y texto */
+  .crono-linea {
+    width: 1px;
+    height: 2.75rem;
+    background: #A9713F;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* Líneas horizontales (arriba y abajo) */
+  .crono-regla {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #A9713F, transparent);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

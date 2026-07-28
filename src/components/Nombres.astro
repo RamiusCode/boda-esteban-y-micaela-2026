@@ -1,0 +1,147 @@
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 👨‍👩‍👧 PADRES Y PADRINOS - ESTILO TEXAS / VAQUERO            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 py-12" style="color:#5C4033;">
+  <div class="max-w-2xl mx-auto text-center flex flex-col items-center">
+
+    <!-- 🙏 Bendición -->
+    <p class="font-cormorant uppercase tracking-[0.15em] text-lg sm:text-xl font-semibold leading-relaxed mb-5" id="bendicion" style="color:#5C4033;">
+      Con la bendición de Dios<br />y nuestros padres
+    </p>
+
+    <!-- 👪 Padres (con flor lateral derecha) -->
+    <div class="relative w-full" id="padres-wrapper">
+
+      <!-- 🌿 Flor lateral derecha (volteada horizontalmente) -->
+      <img
+        src="/imagenes/hojalateral.png"
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 right-0 -mr-6 sm:-mr-10 w-[3.5rem] sm:w-[4.7rem] h-auto object-contain scale-x-[-1] z-0"
+      />
+
+      <div class="relative z-10 flex flex-col items-center gap-4 w-full" id="padres">
+      <!-- Padres del novio -->
+      <div>
+        <h3 class="font-cormorant uppercase tracking-normal text-lg sm:text-xl mb-1" style="color:#A9713F;">
+          Padres del Novio
+        </h3>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Jaime Arnez</p>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Lena Martina Machicado</p>
+      </div>
+      <!-- Padres de la novia -->
+      <div>
+        <h3 class="font-cormorant uppercase tracking-normal text-lg sm:text-xl mb-1" style="color:#A9713F;">
+          Padres de la Novia
+        </h3>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Marcos Borda</p>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Ana María Villarroel</p>
+      </div>
+      </div>
+    </div>
+
+    <!-- ✦ Separador (línea + rombo) -->
+    <div class="flex items-center justify-center gap-3 w-full max-w-[220px] mx-auto my-6" id="sep-padrinos">
+      <span class="sep-linea sep-linea-izq" aria-hidden="true"></span>
+      <span class="sep-rombo" aria-hidden="true"></span>
+      <span class="sep-linea sep-linea-der" aria-hidden="true"></span>
+    </div>
+
+    <!-- 🌿 Padrinos (con hoja lateral izquierda) -->
+    <div class="relative w-full" id="padrinos-wrapper">
+
+      <!-- 🌿 Hoja lateral izquierda (a la altura de los padrinos) -->
+      <img
+        src="/imagenes/hojalateral.png"
+        alt=""
+        aria-hidden="true"
+        class="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 left-0 -ml-6 sm:-ml-10 w-[3.5rem] sm:w-[4.7rem] h-auto object-contain z-0"
+      />
+
+      <!-- 💒 Padrinos de Religión -->
+      <div class="relative z-10 mb-4" id="padrinos-religion">
+        <h3 class="font-cormorant uppercase tracking-normal text-lg sm:text-xl mb-1" style="color:#A9713F;">
+          Padrinos de Religión
+        </h3>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Marcos Borda</p>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Ana María Villarroel</p>
+      </div>
+
+      <!-- 📜 Padrinos de Civil -->
+      <div class="relative z-10" id="padrinos-civil">
+        <h3 class="font-cormorant uppercase tracking-normal text-lg sm:text-xl mb-1" style="color:#A9713F;">
+          Padrinos de Civil
+        </h3>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Antonio Badani</p>
+        <p class="font-cormorant text-xl sm:text-2xl" style="color:#9C7B58;">Jhanet Arnez</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#bendicion", "#padres", "#sep-padrinos", "#padrinos-religion", "#padrinos-civil"];
+
+      gsap.set(elementos, { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#bendicion",
+        start: "top 85%",
+        onEnter: () => {
+          gsap.to(elementos, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power2.out",
+            stagger: 0.15,
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(elementos, {
+            opacity: 0,
+            y: 30,
+            duration: 0.4,
+            ease: "power2.in",
+          });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Separador línea + rombo (igual que la portada) */
+  .sep-linea {
+    flex: 1 1 0%;
+    height: 1px;
+    opacity: 0.65;
+  }
+  .sep-linea-izq { background: linear-gradient(to right, transparent, #A9713F); }
+  .sep-linea-der { background: linear-gradient(to left, transparent, #A9713F); }
+  .sep-rombo {
+    width: 8px;
+    height: 8px;
+    background: #A9713F;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

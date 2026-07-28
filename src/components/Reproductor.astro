@@ -1,0 +1,432 @@
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎵 REPRODUCTOR DE MÚSICA - ESTILO TEXAS / VAQUERO           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div
+  class="w-full max-w-[380px] sm:max-w-md mx-auto sm:mt-4 px-4"
+  id="music-player-container"
+>
+  <!-- Tarjeta principal -->
+  <div
+    class="relative rounded-3xl p-6 sm:p-7"
+    id="player-card"
+  >
+    <!-- Contenido -->
+    <div class="relative z-10">
+
+      <!-- 🎼 Título -->
+      <div class="text-center mb-1" id="player-title">
+        <h3 class="font-cormorant font-semibold text-2xl sm:text-3xl tracking-normal leading-tight" style="color:#5C4033;">
+          Nuestra Canción
+        </h3>
+      </div>
+
+      <!-- ▬ Barra de progreso -->
+      <div class="px-1 sm:px-2 mb-4" id="progress-container">
+        <input
+          type="range"
+          id="progressBar"
+          value="0"
+          max="100"
+          class="w-full h-1.5 rounded-full appearance-none cursor-pointer slider-elegant"
+        />
+        <div class="flex items-center justify-between text-xs sm:text-sm mt-2 font-medium" style="color:#8B6B4A;">
+          <span id="currentTime">0:00</span>
+          <span id="totalDuration">--:--</span>
+        </div>
+      </div>
+
+      <!-- ⏯️ Controles -->
+      <div
+        class="flex items-center justify-center gap-5 sm:gap-6"
+        id="controls-container"
+      >
+        <!-- Shuffle -->
+        <button id="shuffleBtn" class="ctrl-side focus:outline-none" aria-label="Aleatorio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path>
+          </svg>
+        </button>
+
+        <!-- Anterior -->
+        <button id="prevBtn" class="ctrl-side focus:outline-none" aria-label="Anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7 6v12l-2-2V8l2-2zm2 6l8-5v10l-8-5z"></path>
+          </svg>
+        </button>
+
+        <!-- Play / Pause (botón circular) -->
+        <button id="playPauseBtn" class="relative flex-shrink-0 focus:outline-none" aria-label="Reproducir">
+          <!-- Aros de pulso -->
+          <span class="pulse-ring" aria-hidden="true"></span>
+          <span class="pulse-ring pulse-ring--2" aria-hidden="true"></span>
+          <!-- Círculo -->
+          <span class="play-circle flex items-center justify-center">
+            <svg id="play-icon" width="26" height="26" viewBox="0 0 24 24" fill="white" class="ml-0.5">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <svg id="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="white" class="hidden">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+            </svg>
+          </span>
+          <!-- Ondas al reproducir -->
+          <span class="absolute inset-0 pointer-events-none" id="heart-particles"></span>
+        </button>
+
+        <!-- Siguiente -->
+        <button id="nextBtn" class="ctrl-side focus:outline-none" aria-label="Siguiente">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 18V6l2 2v8l-2 2zm-2-6L7 7v10l8-5z"></path>
+          </svg>
+        </button>
+
+        <!-- Repetir -->
+        <button id="repeatBtn" class="ctrl-side focus:outline-none" aria-label="Repetir">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 2l4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 🤠 Sombrero (sobre el reproductor) -->
+      <div class="relative z-20 flex justify-center -mt-16 sm:-mt-20 -mx-10 sm:-mx-11 -mb-6 sm:-mb-7 pointer-events-none" id="sombrero">
+        <img
+          src="/imagenes/sombrero.png"
+          alt="Decoración vaquera"
+          class="w-full h-auto object-contain"
+        />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Audio element -->
+<audio id="music-audio" preload="auto">
+  <source src="/musica/melodia.mp3" type="audio/mpeg" />
+  Tu navegador no soporta audio HTML5.
+</audio>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 SCRIPTS                                                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let isPlaying = false;
+  let currentTime = 0;
+  let duration = 0;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Estado inicial (invisible)
+    gsap.set("#music-player-container", { opacity: 0, y: 50, scale: 0.9 });
+    gsap.set("#player-title", { opacity: 0, y: 30 });
+    gsap.set("#controls-container", { opacity: 0, scale: 0.8 });
+    gsap.set("#progress-container", { opacity: 0, y: 20 });
+
+    // 🎯 Aparición al hacer scroll
+    ScrollTrigger.create({
+      trigger: "#music-player-container",
+      start: "top 100%",
+      end: "bottom 5%",
+      onEnter: animatePlayerIn,
+      onEnterBack: animatePlayerIn,
+      onLeaveBack: animatePlayerOut,
+    });
+
+    function animatePlayerIn() {
+      const tl = gsap.timeline();
+      tl.to("#music-player-container", { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" })
+        .to("#player-title", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
+        .to("#controls-container", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" }, "-=0.3")
+        .to("#progress-container", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
+    }
+
+    function animatePlayerOut() {
+      const tl = gsap.timeline();
+      tl.to("#progress-container", { opacity: 0, y: 20, duration: 0.4, ease: "power2.in" })
+        .to("#controls-container", { opacity: 0, scale: 0.8, duration: 0.4, ease: "back.in(1.2)" }, "-=0.3")
+        .to("#player-title", { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" }, "-=0.3")
+        .to("#music-player-container", { opacity: 0, y: 50, scale: 0.9, duration: 0.5, ease: "power3.in" }, "-=0.3");
+    }
+
+    // Listeners
+    document.getElementById("playPauseBtn")?.addEventListener("click", togglePlayPause);
+    document.getElementById("prevBtn")?.addEventListener("click", previousTrack);
+    document.getElementById("nextBtn")?.addEventListener("click", nextTrack);
+    document.getElementById("progressBar")?.addEventListener("input", seekAudio);
+    document.getElementById("shuffleBtn")?.addEventListener("click", (e) => bounce(e.currentTarget));
+    document.getElementById("repeatBtn")?.addEventListener("click", (e) => bounce(e.currentTarget));
+
+    // Duración real
+    const audioElement = document.getElementById("music-audio");
+    if (audioElement instanceof HTMLAudioElement) {
+      audioElement.addEventListener("loadedmetadata", () => {
+        duration = audioElement.duration;
+        updateTimeDisplay();
+      });
+      audioElement.addEventListener("canplaythrough", () => {
+        if (duration === 0 && audioElement.duration) {
+          duration = audioElement.duration;
+          updateTimeDisplay();
+        }
+      });
+    }
+  });
+
+  function bounce(el) {
+    if (!el) return;
+    gsap.fromTo(el, { scale: 0.8 }, { scale: 1, duration: 0.4, ease: "back.out(2)" });
+  }
+
+  function togglePlayPause() {
+    const audioElement = document.getElementById("music-audio");
+    const playIcon = document.getElementById("play-icon");
+    const pauseIcon = document.getElementById("pause-icon");
+    const heartBtn = document.getElementById("playPauseBtn");
+    const card = document.getElementById("player-card");
+
+    if (!(audioElement instanceof HTMLAudioElement)) return;
+    const audio = audioElement;
+
+    if (!isPlaying) {
+      audio.play().catch((error) => console.log("Error al reproducir:", error));
+      if (playIcon) playIcon.classList.add("hidden");
+      if (pauseIcon) pauseIcon.classList.remove("hidden");
+      card?.classList.add("playing");
+
+      gsap.to(heartBtn, { scale: 1.12, duration: 0.3, ease: "back.out(2)" });
+      gsap.to(heartBtn, { scale: 1, duration: 0.3, delay: 0.3, ease: "power2.out" });
+      createSimpleWaves();
+
+      isPlaying = true;
+      startProgress();
+    } else {
+      audio.pause();
+      if (playIcon) playIcon.classList.remove("hidden");
+      if (pauseIcon) pauseIcon.classList.add("hidden");
+      card?.classList.remove("playing");
+      isPlaying = false;
+    }
+  }
+
+  function createSimpleWaves() {
+    const container = document.getElementById("heart-particles");
+    if (!container) return;
+    for (let i = 0; i < 3; i++) {
+      const wave = document.createElement("div");
+      wave.style.cssText = `
+        position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+        width:64px; height:64px; border:2px solid #A9713F; border-radius:50%;
+        opacity:0; pointer-events:none;`;
+      container.appendChild(wave);
+      gsap.timeline()
+        .to(wave, { opacity: 0.5, duration: 0.3, delay: i * 0.15, ease: "power2.out" })
+        .to(wave, { width: 130, height: 130, opacity: 0, duration: 1, ease: "power2.out", onComplete: () => wave.remove() }, "-=0.1");
+    }
+  }
+
+  function previousTrack() {
+    bounce(document.getElementById("prevBtn"));
+    const audioElement = document.getElementById("music-audio");
+    if (audioElement instanceof HTMLAudioElement) {
+      audioElement.currentTime = Math.max(0, audioElement.currentTime - 10);
+      updateProgress();
+    }
+  }
+
+  function nextTrack() {
+    bounce(document.getElementById("nextBtn"));
+    const audioElement = document.getElementById("music-audio");
+    if (audioElement instanceof HTMLAudioElement) {
+      audioElement.currentTime = Math.min(audioElement.duration || 0, audioElement.currentTime + 10);
+      updateProgress();
+    }
+  }
+
+  function seekAudio() {
+    const progressBarElement = document.getElementById("progressBar");
+    const audioElement = document.getElementById("music-audio");
+    if (progressBarElement instanceof HTMLInputElement && audioElement instanceof HTMLAudioElement) {
+      const value = Number(progressBarElement.value) || 0;
+      const seekTime = (value / 100) * audioElement.duration;
+      audioElement.currentTime = seekTime;
+      currentTime = seekTime;
+      updateTimeDisplay();
+      paintProgress(value);
+    }
+  }
+
+  function startProgress() {
+    const audioElement = document.getElementById("music-audio");
+    if (!(audioElement instanceof HTMLAudioElement)) return;
+    const interval = setInterval(() => {
+      if (!isPlaying) { clearInterval(interval); return; }
+      currentTime = audioElement.currentTime;
+      duration = audioElement.duration || duration;
+      if (currentTime >= duration) {
+        isPlaying = false;
+        document.getElementById("player-card")?.classList.remove("playing");
+        document.getElementById("play-icon")?.classList.remove("hidden");
+        document.getElementById("pause-icon")?.classList.add("hidden");
+        clearInterval(interval);
+      }
+      updateProgress();
+    }, 100);
+  }
+
+  function paintProgress(progress) {
+    const progressBarElement = document.getElementById("progressBar");
+    if (progressBarElement instanceof HTMLInputElement) {
+      progressBarElement.style.background =
+        `linear-gradient(to right, #A9713F ${progress}%, rgba(140,94,60,0.18) ${progress}%)`;
+    }
+  }
+
+  function updateProgress() {
+    const progressBarElement = document.getElementById("progressBar");
+    const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+    if (progressBarElement instanceof HTMLInputElement) {
+      progressBarElement.value = progress.toString();
+    }
+    paintProgress(progress);
+    updateTimeDisplay();
+  }
+
+  function updateTimeDisplay() {
+    const currentTimeEl = document.getElementById("currentTime");
+    const totalDurationEl = document.getElementById("totalDuration");
+    const audioElement = document.getElementById("music-audio");
+    if (audioElement instanceof HTMLAudioElement) {
+      if (currentTimeEl) {
+        const minutes = Math.floor(audioElement.currentTime / 60);
+        const seconds = Math.floor(audioElement.currentTime % 60);
+        currentTimeEl.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+      }
+      if (totalDurationEl && audioElement.duration) {
+        const totalMinutes = Math.floor(audioElement.duration / 60);
+        const totalSeconds = Math.floor(audioElement.duration % 60);
+        totalDurationEl.textContent = `${totalMinutes}:${totalSeconds.toString().padStart(2, "0")}`;
+      } else if (totalDurationEl && duration > 0) {
+        const totalMinutes = Math.floor(duration / 60);
+        const totalSeconds = Math.floor(duration % 60);
+        totalDurationEl.textContent = `${totalMinutes}:${totalSeconds.toString().padStart(2, "0")}`;
+      }
+    }
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Sin tarjeta: contenedor transparente */
+  #player-card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Botones laterales */
+  .ctrl-side {
+    color: #7A5C3E;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .ctrl-side:hover {
+    color: #5C4033;
+    transform: translateY(-2px) scale(1.12);
+  }
+
+  /* Botón circular play */
+  .play-circle {
+    position: relative;
+    z-index: 2;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #B07A45, #8B5E3C);
+    box-shadow: 0 6px 16px rgba(139, 94, 60, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  #playPauseBtn:hover .play-circle {
+    box-shadow: 0 8px 22px rgba(139, 94, 60, 0.6);
+  }
+
+  /* Aros de pulso continuos */
+  .pulse-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    border-radius: 50%;
+    border: 2px solid rgba(169, 113, 63, 0.5);
+    z-index: 1;
+    animation: pulseRing 2.6s ease-out infinite;
+  }
+  .pulse-ring--2 { animation-delay: 1.3s; }
+  @keyframes pulseRing {
+    0%   { transform: scale(1);   opacity: 0.6; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  /* Barra de progreso */
+  .slider-elegant {
+    background: linear-gradient(to right, #A9713F 0%, rgba(140, 94, 60, 0.18) 0%);
+    outline: none;
+    border-radius: 15px;
+  }
+  .slider-elegant::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #8B5E3C;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(139, 94, 60, 0.4);
+    border: 3px solid #FFF8F0;
+    transition: all 0.3s ease;
+  }
+  .slider-elegant::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .slider-elegant::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #8B5E3C;
+    cursor: pointer;
+    border: 3px solid #FFF8F0;
+    box-shadow: 0 2px 6px rgba(139, 94, 60, 0.4);
+  }
+
+  /* Ecualizador */
+  .eq span {
+    display: inline-block;
+    width: 3px;
+    height: 4px;
+    border-radius: 2px;
+    background: #A9713F;
+    opacity: 0.35;
+  }
+  #player-card.playing .eq span {
+    animation: eqBar 0.9s ease-in-out infinite;
+    opacity: 0.85;
+  }
+  .eq span:nth-child(1) { animation-delay: 0s;    }
+  .eq span:nth-child(2) { animation-delay: 0.15s; }
+  .eq span:nth-child(3) { animation-delay: 0.3s;  }
+  .eq span:nth-child(4) { animation-delay: 0.45s; }
+  .eq span:nth-child(5) { animation-delay: 0.3s;  }
+  .eq span:nth-child(6) { animation-delay: 0.15s; }
+  .eq span:nth-child(7) { animation-delay: 0s;    }
+  @keyframes eqBar {
+    0%, 100% { height: 4px;  }
+    50%      { height: 16px; }
+  }
+
+  @media (max-width: 640px) {
+    #player-card { padding: 1.5rem; }
+  }
+</style>
