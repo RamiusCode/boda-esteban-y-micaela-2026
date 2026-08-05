@@ -16,18 +16,9 @@
       Decidimos unir nuestras vidas en matrimonio y queremos que sean parte de este día tan especial para nosotros.
     </p>
 
-    <!-- 🤠 Sombrero (arriba de la fecha) -->
-    <div class="relative z-10 mb-3" id="sombrero-fecha" aria-hidden="true">
-      <img
-        src="/imagenes/sombrero.png"
-        alt=""
-        class="w-44 sm:w-52 md:w-60 h-auto object-contain mx-auto"
-      />
-    </div>
-
     <!-- 📅 Fecha con líneas arriba y abajo -->
     <div class="relative z-10 w-full" id="fecha-evento">
-      <div class="relative flex items-center justify-center gap-5 md:gap-7">
+      <div class="relative flex items-center justify-center gap-2 md:gap-3">
 
         {/* 🌿 Hojas laterales — comentadas (rehabilitar quitando estas marcas)
         <img
@@ -48,21 +39,21 @@
         <div class="flex flex-col items-center w-24 md:w-28">
           <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
           <span class="font-cormorant text-base md:text-lg uppercase tracking-[0.18em] font-medium text-center my-2 pl-[0.18em]" style="color:#5C4033;">
-            Viernes
+            Sábado
           </span>
           <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
         </div>
 
         <!-- 22 -->
         <div class="flex items-center justify-center min-w-[64px] md:min-w-[80px]">
-          <span class="numero-dia font-cormorant font-medium leading-none" style="color:#A9713F;">04</span>
+          <span class="numero-dia font-cormorant font-medium leading-none" style="color:#A9713F;">22</span>
         </div>
 
         <!-- AGOSTO -->
         <div class="flex flex-col items-center w-24 md:w-28">
           <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
           <span class="font-cormorant text-base md:text-lg uppercase tracking-[0.18em] font-medium text-center my-2 pl-[0.18em]" style="color:#5C4033;">
-            Septiembre
+            Agosto
           </span>
           <div class="w-full h-px" style="background:#A9713F; opacity:0.6;"></div>
         </div>
@@ -70,7 +61,7 @@
 
       <!-- Año -->
       <div class="-mt-1 flex justify-center" id="anio-evento">
-        <p class="font-cormorant num-lining text-2xl md:text-3xl tracking-[0.3em] font-medium pl-[0.3em]" style="color:#5C4033;">
+        <p class="font-cormorant text-2xl md:text-3xl tracking-[0.3em] font-medium pl-[0.3em]" style="color:#5C4033;">
           2026
         </p>
       </div>
@@ -94,7 +85,6 @@
       gsap.set("#hoja-fecha-der", { opacity: 0, x: 25 });
       gsap.set("#fecha-orn", { opacity: 0, y: 15 });
       gsap.set("#texto-invitacion", { opacity: 0, y: 20 });
-      gsap.set("#sombrero-fecha", { opacity: 0, y: -15 });
       gsap.set("#fecha-evento", { opacity: 0, scale: 0.92 });
       gsap.set("#anio-evento", { opacity: 0, y: 15 });
 
@@ -107,12 +97,11 @@
             .to("#texto-invitacion", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
             .to("#hoja-fecha-izq", { opacity: 0.8, x: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
             .to("#hoja-fecha-der", { opacity: 0.8, x: 0, duration: 0.8, ease: "power2.out" }, "<")
-            .to("#sombrero-fecha", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.5")
-            .to("#fecha-evento", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, "-=0.4")
+            .to("#fecha-evento", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.3)" }, "-=0.5")
             .to("#anio-evento", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
         },
         onLeaveBack: () => {
-          gsap.to("#fecha-orn, #texto-invitacion, #sombrero-fecha, #fecha-evento, #anio-evento, #hoja-fecha-izq, #hoja-fecha-der", {
+          gsap.to("#fecha-orn, #texto-invitacion, #fecha-evento, #anio-evento, #hoja-fecha-izq, #hoja-fecha-der", {
             opacity: 0, duration: 0.4, ease: "power2.in",
           });
         },
@@ -127,19 +116,11 @@
 <style>
   /* Número del día (protagonista) */
   .numero-dia {
-    font-size: 3.75rem;
+    font-size: 5rem;
     text-shadow: 0 4px 12px rgba(92, 64, 51, 0.15);
-    font-variant-numeric: lining-nums tabular-nums;
-    font-feature-settings: "lnum" 1, "tnum" 1;
-  }
-
-  /* Números alineados (evita que el 4 / 0 bajen de la línea base) */
-  .num-lining {
-    font-variant-numeric: lining-nums tabular-nums;
-    font-feature-settings: "lnum" 1, "tnum" 1;
   }
   @media (min-width: 768px) {
-    .numero-dia { font-size: 4.5rem; }
+    .numero-dia { font-size: 6rem; }
   }
 
   /* Ornamento con estrella */

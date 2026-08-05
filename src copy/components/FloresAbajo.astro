@@ -1,42 +1,35 @@
 ---
-// Despedida.astro
+// FloresAbajo.astro
 ---
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- ✅ CONFIRMACIÓN / RSVP - ESTILO TEXAS / VAQUERO             -->
+<!-- 🙏 GRACIAS (CIERRE) - ESTILO TEXAS / VAQUERO               -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section class="relative w-full overflow-hidden px-6 pt-12 pb-6" style="color:#5C4033;">
+<section class="relative w-full overflow-hidden px-6 pt-0 pb-16" style="color:#5C4033;">
 
-  <!-- 🌿 Hoja lateral derecha -->
+  <!-- 🐎 Caballo abajo izquierda (detrás de todo) -->
   <img
-    src="/imagenes/hojalateral.png"
+    src="/imagenes/caballo.png"
     alt="" aria-hidden="true"
-    class="pointer-events-none select-none absolute right-0 top-[38%] -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
-    id="desp-hoja"
+    class="pointer-events-none select-none absolute -bottom-4 -left-8 sm:-bottom-6 sm:-left-12 w-64 sm:w-80 h-auto object-contain z-0"
+    id="grx-caballo"
   />
 
   <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
 
-    <!-- Título -->
-    <h2 class="font-cormorant uppercase font-semibold tracking-[0.28em] text-xl pl-[0.28em]" id="desp-titulo" style="color:#5C4033;">
-      Confirmación
+    <!-- ¡Gracias! -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.12em] text-4xl sm:text-5xl" id="grx-titulo" style="color:#5C4033;">
+      ¡Gracias!
     </h2>
 
-    <!-- Mensaje -->
-    <p class="font-cormorant text-lg leading-relaxed mt-5 max-w-sm mx-auto" id="desp-mensaje" style="color:#6B4A31;">
-      Agradecemos confirmar su asistencia antes del 16 de agosto.
+    <!-- Subtítulo -->
+    <p class="font-cormorant uppercase tracking-[0.25em] text-sm sm:text-base leading-relaxed mt-4 pl-[0.25em]" id="grx-sub" style="color:#8B6B4A;">
+      Por ser parte de<br />nuestro comienzo
     </p>
 
-    <!-- Botón confirmar -->
-    <div class="mt-8" id="desp-boton">
-      <a
-        href="https://forms.gle/dtnkrgAjiZEfbkHF8"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-confirmar inline-block font-cormorant uppercase tracking-[0.18em] text-sm sm:text-base font-semibold px-9 py-3"
-      >
-        Confirmar Asistencia
-      </a>
-    </div>
+    <!-- Corazón -->
+    <svg class="w-6 h-6 mt-7" viewBox="0 0 24 24" fill="#A9713F" id="grx-corazon" aria-hidden="true">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
 
   </div>
 </section>
@@ -52,20 +45,21 @@
 
   if (typeof window !== "undefined") {
     document.addEventListener("DOMContentLoaded", () => {
-      const elementos = ["#desp-titulo", "#desp-mensaje", "#desp-boton"];
+      const elementos = ["#grx-titulo", "#grx-sub", "#grx-corazon"];
       gsap.set(elementos, { opacity: 0, y: 25 });
-      gsap.set("#desp-hoja", { opacity: 0, x: 30 });
+      gsap.set("#grx-caballo", { opacity: 0, x: -30 });
 
       ScrollTrigger.create({
-        trigger: "#desp-titulo",
-        start: "top 85%",
+        trigger: "#grx-titulo",
+        start: "top 88%",
         onEnter: () => {
-          gsap.to("#desp-hoja", { opacity: 0.7, x: 0, y: 0, duration: 1, ease: "power2.out" });
+          gsap.to("#grx-caballo", { opacity: 1, x: 0, duration: 1, ease: "power2.out", delay: 0.2 });
           gsap.to(elementos, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 });
-          gsap.to("#desp-boton a", { scale: 1.04, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.2 });
+          // Latido del corazón
+          gsap.to("#grx-corazon", { scale: 1.2, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1, transformOrigin: "center" });
         },
         onLeaveBack: () => {
-          gsap.to([...elementos, "#desp-hoja"], { opacity: 0, duration: 0.4, ease: "power2.in" });
+          gsap.to([...elementos, "#grx-caballo"], { opacity: 0, duration: 0.4, ease: "power2.in" });
         },
       });
     });
@@ -76,17 +70,7 @@
 <!-- 🎨 ESTILOS                                                  -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <style>
-  .btn-confirmar {
-    color: #FFF8F0;
-    background: #9C7B58;
-    border-radius: 0.5rem;
-    box-shadow: 0 6px 16px rgba(92, 64, 51, 0.2);
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  .btn-confirmar:hover {
-    background: #8B6B4A;
-    transform: translateY(-2px);
-  }
+  #grx-corazon { margin-left: auto; margin-right: auto; }
 
   @media (max-width: 640px) {
     section { padding-left: 1.25rem; padding-right: 1.25rem; }

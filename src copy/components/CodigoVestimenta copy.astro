@@ -6,31 +6,8 @@ const paleta = ["#EBD9C0", "#C9A06B", "#A9713F", "#5C4033"];
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- 👔 CÓDIGO DE VESTIMENTA - ESTILO TEXAS / VAQUERO            -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section class="relative w-full overflow-hidden px-6 pt-2 pb-12" style="color:#5C4033;">
-
-  <!-- 🌿 Hoja lateral izquierda -->
-  <img
-    src="/imagenes/hojalateral.png"
-    alt="" aria-hidden="true"
-    class="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 -ml-3 sm:-ml-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0"
-    id="dc-hoja-izq"
-  />
-
-  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
-
-    <!-- 🤠 Sombrero (arriba del código de vestimenta) -->
-    <div class="mb-4" id="dc-sombrero" aria-hidden="true">
-      <img
-        src="/imagenes/sombrero.png"
-        alt=""
-        class="w-40 sm:w-48 md:w-56 h-auto object-contain mx-auto"
-      />
-    </div>
-
-    <!-- 👔 Ícono código de vestimenta (tintado) -->
-    <div class="dc-icono w-24 h-24 sm:w-28 sm:h-28 mb-5" id="dc-icono"
-      style="-webkit-mask-image:url('/imagenes/codigovestimenta.png'); mask-image:url('/imagenes/codigovestimenta.png');"
-      role="img" aria-label="Código de vestimenta"></div>
+<section class="relative w-full overflow-hidden px-6 py-12" style="color:#5C4033;">
+  <div class="max-w-md mx-auto text-center flex flex-col items-center">
 
     <!-- Título -->
     <h2 class="font-cormorant uppercase font-semibold tracking-[0.25em] text-xl sm:text-3xl pl-[0.25em]" id="dc-titulo" style="color:#5C4033;">
@@ -63,19 +40,19 @@ const paleta = ["#EBD9C0", "#C9A06B", "#A9713F", "#5C4033"];
 
   if (typeof window !== "undefined") {
     document.addEventListener("DOMContentLoaded", () => {
-      gsap.set(["#dc-sombrero", "#dc-icono", "#dc-titulo", "#dc-formal"], { opacity: 0, y: 20 });
+      gsap.set(["#dc-titulo", "#dc-formal"], { opacity: 0, y: 20 });
       gsap.set(".dc-circulo", { opacity: 0, scale: 0 });
 
       ScrollTrigger.create({
-        trigger: "#dc-sombrero",
+        trigger: "#dc-titulo",
         start: "top 85%",
         onEnter: () => {
           const tl = gsap.timeline();
-          tl.to(["#dc-sombrero", "#dc-icono", "#dc-titulo", "#dc-formal"], { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.12 })
+          tl.to(["#dc-titulo", "#dc-formal"], { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", stagger: 0.12 })
             .to(".dc-circulo", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)", stagger: 0.1 }, "-=0.2");
         },
         onLeaveBack: () => {
-          gsap.to(["#dc-sombrero", "#dc-icono", "#dc-titulo", "#dc-formal", ".dc-circulo"], { opacity: 0, duration: 0.4, ease: "power2.in" });
+          gsap.to(["#dc-titulo", "#dc-formal", ".dc-circulo"], { opacity: 0, duration: 0.4, ease: "power2.in" });
         },
       });
     });
@@ -86,17 +63,6 @@ const paleta = ["#EBD9C0", "#C9A06B", "#A9713F", "#5C4033"];
 <!-- 🎨 ESTILOS                                                  -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <style>
-  /* Ícono tintado (mismo color que el ícono de regalo) */
-  .dc-icono {
-    background-color: #5C4033;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-  }
-
   .dc-circulo {
     display: inline-block;
     width: 3rem;

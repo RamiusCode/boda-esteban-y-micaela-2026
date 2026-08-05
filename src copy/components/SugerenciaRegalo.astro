@@ -1,0 +1,106 @@
+---
+// SugerenciaRegalo.astro
+---
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎁 NUESTRO MEJOR REGALO - ESTILO TEXAS / VAQUERO           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 py-14" style="background-color:#E7DFD2; color:#5C4033;">
+  <div class="max-w-md mx-auto text-center flex flex-col items-center">
+
+    <!-- 🎁 Ícono regalo -->
+    <div class="regalo-icono w-12 h-12 sm:w-14 sm:h-14 mb-5" id="reg-icono"
+      style="-webkit-mask-image:url('/imagenes/regalo.png'); mask-image:url('/imagenes/regalo.png');"
+      role="img" aria-label="Regalo"></div>
+
+    <!-- Título -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.22em] text-xl sm:text-2xl pl-[0.22em]" id="reg-titulo" style="color:#5C4033;">
+      Nuestro Mejor Regalo
+    </h2>
+
+    <!-- Mensaje -->
+    <p class="font-cormorant text-lg sm:text-xl leading-relaxed mt-4 max-w-sm mx-auto" id="reg-mensaje" style="color:#6B4A31;">
+      Su presencia es nuestro mayor regalo, pero si desean tener un detalle con nosotros, les dejamos nuestra lista.
+    </p>
+
+    <!-- QR -->
+    <div class="mt-8" id="reg-qr">
+      <div class="bg-white p-3 rounded-2xl shadow-md inline-block">
+        <img
+          src="/imagenes/qr.png"
+          alt="Código QR de regalo"
+          class="w-52 h-52 sm:w-60 sm:h-60 object-contain"
+        />
+      </div>
+    </div>
+
+    <!-- Nombre de cuenta -->
+    <div class="mt-5" id="reg-cuenta">
+      <p class="font-cormorant uppercase tracking-[0.2em] text-sm sm:text-base pl-[0.2em]" style="color:#9C7B58;">
+        Nombre de cuenta
+      </p>
+      <p class="font-cormorant font-semibold text-lg sm:text-xl mt-1" style="color:#5C4033;">
+        Juan Carlos Pérez Gómez
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#reg-icono", "#reg-titulo", "#reg-mensaje", "#reg-qr", "#reg-cuenta"];
+      gsap.set(elementos, { opacity: 0, y: 25 });
+
+      ScrollTrigger.create({
+        trigger: "#reg-icono",
+        start: "top 85%",
+        onEnter: () => {
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 });
+          // Leve latido del ícono
+          gsap.to("#reg-icono", { scale: 1.08, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.2 });
+        },
+        onLeaveBack: () => {
+          gsap.to(elementos, { opacity: 0, y: 25, duration: 0.4, ease: "power2.in" });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Ícono de regalo tintado */
+  .regalo-icono {
+    background-color: #5C4033;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  #reg-qr .bg-white {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  #reg-qr:hover .bg-white {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(92, 64, 51, 0.2);
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>

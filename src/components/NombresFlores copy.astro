@@ -2,7 +2,7 @@
 <!-- 🤠 PORTADA - ESTILO TEXAS / VAQUERO                         -->
 <!-- Paleta marrón · texto #5C4033 · flor superior: flor1.png    -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section class="relative w-full min-h-screen overflow-hidden flex items-center justify-center px-6 py-16" style="color:#5C4033;">
+<section class="relative w-full overflow-hidden flex items-center justify-center px-6 pt-12 pb-8" style="color:#5C4033;">
 
     <!-- 🌸 FLOR SUPERIOR DERECHA (flor1.png) -->
     <img
@@ -19,15 +19,34 @@
         class="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 w-16 sm:w-24 md:w-32 lg:w-36 h-auto object-contain z-0"
     />
 
+    <!-- 🐴 ILUSTRACIÓN LATERAL DERECHA (costado.png) -->
+    <img
+        src="/imagenes/costado.png"
+        alt=""
+        aria-hidden="true"
+        id="costado-der"
+        class="pointer-events-none select-none absolute right-0 top-[52%] -translate-y-1/2 -mr-10 sm:-mr-12 md:-mr-14 w-36 sm:w-48 md:w-56 h-auto object-contain z-0"
+        style="opacity:0.3;"
+    />
+
     <!-- 📝 CONTENIDO CENTRAL -->
     <div class="relative z-10 text-center max-w-2xl mx-auto flex flex-col items-center">
 
         <!-- 💠 LOGO EM (logo.png) -->
-        <div class="mb-4 -mt-40 sm:-mt-52 md:-mt-64" id="monograma">
+        <div class="mb-4" id="monograma">
             <img
                 src="/imagenes/logo.png"
                 alt="Logo Esteban y Micaela"
                 class="w-16 sm:w-20 md:w-28 h-auto object-contain mx-auto"
+            />
+        </div>
+
+        <!-- 🤠 SOMBRERO (sombrero.png) -->
+        <div class="mt-4 sm:mt-5" id="sombrero-portada" aria-hidden="true">
+            <img
+                src="/imagenes/sombrero.png"
+                alt=""
+                class="w-[9.5rem] sm:w-[11.5rem] md:w-[13.5rem] h-auto object-contain mx-auto opacity-90"
             />
         </div>
 
@@ -64,19 +83,19 @@
 
         <!-- 📅 FECHA -->
         <div class="flex flex-col items-center mt-6 mb-6" id="fecha-portada">
-            <p class="font-cormorant italic text-2xl sm:text-3xl tracking-wide mb-2" style="color:#A9713F;">Sábado</p>
+            <p class="font-cormorant text-lg sm:text-xl tracking-normal uppercase mb-3" style="color:#A9713F;">Viernes</p>
             <div class="flex items-center justify-center gap-2 sm:gap-3">
-                <span class="font-cormorant text-3xl sm:text-4xl font-medium tracking-wider text-center w-12 sm:w-14" style="color:#5C4033;">22</span>
+                <span class="font-cormorant text-3xl sm:text-4xl font-medium tracking-normal text-center w-12 sm:w-14" style="color:#5C4033;">04</span>
                 <span class="fecha-linea" aria-hidden="true"></span>
-                <span class="font-cormorant text-lg sm:text-xl font-medium tracking-[0.28em] uppercase text-center pl-[0.28em]" style="color:#5C4033;">Agosto</span>
+                <span class="font-cormorant text-lg sm:text-xl font-medium tracking-normal uppercase text-center" style="color:#5C4033;">Septiembre</span>
                 <span class="fecha-linea" aria-hidden="true"></span>
-                <span class="font-cormorant text-3xl sm:text-4xl font-medium tracking-wider text-center w-12 sm:w-14" style="color:#5C4033;">2026</span>
+                <span class="font-cormorant text-3xl sm:text-4xl font-medium tracking-normal text-center w-12 sm:w-14" style="color:#5C4033;">2026</span>
             </div>
         </div>
 
         <!-- 🕊️ SUBTÍTULO -->
-        <p class="font-cormorant italic text-base sm:text-lg md:text-xl max-w-md leading-relaxed" id="subtitulo" style="color:#5C4033;">
-            Un día para celebrar<br />el amor y la vida juntos.
+        <p class="font-cormorant text-lg sm:text-xl md:text-2xl max-w-md leading-relaxed" id="subtitulo" style="color:#5C4033;">
+            El amor es elegir cada día<br />a la misma persona y construir<br />juntos una historia.
         </p>
 
     </div>
@@ -93,8 +112,14 @@
         gsap.fromTo("#flor-sup-der", { opacity: 0, x: 60, y: -40 }, { opacity: 1, x: 0, y: 0, duration: 1, ease: "power2.out" });
         gsap.fromTo("#flor-inf-izq", { opacity: 0, x: -60, y: 40 }, { opacity: 1, x: 0, y: 0, duration: 1, ease: "power2.out", delay: 0.2 });
 
+        // ═══ ILUSTRACIÓN LATERAL (caballo + cactus) ═══
+        gsap.fromTo("#costado-der", { opacity: 0, x: 40 }, { opacity: 0.3, x: 0, duration: 1.1, ease: "power2.out", delay: 0.6 });
+
         // ═══ MONOGRAMA ═══
         gsap.fromTo("#monograma", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.4)", delay: 0.2 });
+
+        // ═══ SOMBRERO ═══
+        gsap.fromTo("#sombrero-portada", { opacity: 0, y: -12 }, { opacity: 0.9, y: 0, duration: 0.7, ease: "power2.out", delay: 0.35 });
 
         // ═══ NOS CASAMOS ═══
         gsap.fromTo("#nos-casamos", { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 0.4 });

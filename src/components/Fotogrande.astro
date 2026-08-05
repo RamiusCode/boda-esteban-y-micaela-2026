@@ -1,0 +1,53 @@
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 💑 FOTO GRANDE - solo la imagen, difuminada abajo          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden flex justify-center px-0 pt-4 pb-10 sm:pb-12">
+  <img
+    src="/imagenes/pareja.webp"
+    alt="Esteban y Micaela"
+    id="foto-grande"
+    class="w-56 sm:w-64 md:w-72 max-w-full h-auto object-contain select-none"
+  />
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIÓN CON GSAP                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#foto-grande", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#foto-grande",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#foto-grande", { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+        },
+        onLeaveBack: () => {
+          gsap.to("#foto-grande", { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" });
+        },
+      });
+    });
+  }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Difuminado suave en la parte de abajo (sin marco ni bordes) */
+  #foto-grande {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgba(0, 0, 0, 0.45) 65%, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgba(0, 0, 0, 0.45) 65%, transparent 92%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+</style>
