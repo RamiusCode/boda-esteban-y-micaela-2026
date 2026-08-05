@@ -1,45 +1,51 @@
+---
+// Dedicatoria.astro
+---
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 💒 COMPONENTE DEDICATORIA - INVITACIÓN DE BODA              -->
+<!-- 📖 DEDICATORIA / VERSÍCULO - ESTILO TEXAS / VAQUERO         -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section class="py-8 px-4 relative">
-  <div class="max-w-3xl mx-auto">
-   
-    <!-- 🌸 FLORES ARRIBA -->
-    <div class="flex justify-center mb-4" id="flores-arriba-ded">
+<section class="relative w-full overflow-hidden px-6 pt-6 pb-10" style="color:#5C4033;">
+
+  <!-- 🌿 Hoja lateral izquierda -->
+  <img
+    src="/imagenes/hojalateral.png"
+    alt="" aria-hidden="true"
+    class="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 -ml-3 sm:-ml-4 w-14 sm:w-16 h-auto object-contain opacity-60 z-0"
+    id="ded-hoja-izq"
+  />
+
+  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
+
+    <!-- 🔝 Separador superior -->
+    <div class="mb-6" id="ded-separador">
       <img
-        src="/imagenes/SeparadoresDorado.webp"
-        alt="Flores decorativas superiores"
-        class="w-40 sm:w-48 md:w-56 lg:w-64 h-auto object-contain"
+        src="/imagenes/separador2.png"
+        alt=""
+        aria-hidden="true"
+        class="w-2/3 sm:w-3/5 h-auto object-contain mx-auto"
       />
     </div>
-    
-    <!-- 📖 TEXTO DEDICATORIA - MATEO 19:6 -->
-    <div class="text-center px-6">
-      <p
-        class="font-charm text-xl sm:text-xl md:text-2xl text-[#626a54] leading-relaxed mb-4"
-        id="texto-ded"
-      >
-        Mejores son dos que uno, porque tienen mejor recompensa por su trabajo.
-        Porque si caen, el uno levantará a su compañero.
-      </p>
-      
-      <!-- 📜 REFERENCIA BÍBLICA -->
-      <p
-        class="font-charm text-base sm:text-lg md:text-xl text-[#C9A961] italic"
-        id="referencia-ded"
-      >
-        Eclesiastés 4:9-10
-      </p>
-    </div>
-    
-    <!-- 🌸 FLORES ABAJO -->
-    <div class="flex justify-center mt-4" id="flores-abajo-ded">
+
+    <!-- ✦ Versículo -->
+    <p class="font-cormorant text-xl sm:text-2xl leading-relaxed max-w-sm mx-auto" id="ded-texto" style="color:#5C4033;">
+      <span class="comilla" aria-hidden="true">&laquo;</span>Por tanto, dejará el hombre a su padre y a su madre, y se unirá a su mujer, y serán una sola carne<span class="comilla" aria-hidden="true">&raquo;</span>
+    </p>
+
+    <!-- 📜 Referencia -->
+    <p class="font-cormorant uppercase font-semibold tracking-[0.28em] text-base sm:text-lg pl-[0.28em] mt-5" id="ded-referencia" style="color:#A9713F;">
+      Génesis 2:24
+    </p>
+
+    <!-- 🔻 Separador inferior (igual que el de arriba) -->
+    <div class="mt-6" id="ded-sep">
       <img
-        src="/imagenes/SeparadoresDorado.webp"
-        alt="Flores decorativas inferiores"
-        class="w-40 sm:w-48 md:w-56 lg:w-64 h-auto object-contain"
+        src="/imagenes/separador2.png"
+        alt=""
+        aria-hidden="true"
+        class="w-2/3 sm:w-3/5 h-auto object-contain mx-auto"
       />
     </div>
+
   </div>
 </section>
 
@@ -49,120 +55,44 @@
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  
+
   gsap.registerPlugin(ScrollTrigger);
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    console.log("💒 Iniciando animaciones de dedicatoria...");
-    
-    // Estado inicial - Todo oculto
-    gsap.set("#flores-arriba-ded", { opacity: 0, y: -30 });
-    gsap.set("#texto-ded", { opacity: 0, scale: 0.9 });
-    gsap.set("#referencia-ded", { opacity: 0, scale: 0.9 });
-    gsap.set("#flores-abajo-ded", { opacity: 0, y: 30 });
-    
-    // ScrollTrigger con entrada y salida
-    ScrollTrigger.create({
-      trigger: "#texto-ded",
-      start: "top 100%",
-      end: "top 20%",
-     
-      onEnter: () => {
-        console.log("💒 Dedicatoria apareciendo...");
-        animarEntrada();
-      },
-      onLeaveBack: () => {
-        console.log("💒 Dedicatoria desapareciendo...");
-        animarSalida();
-      },
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const elementos = ["#ded-separador", "#ded-texto", "#ded-referencia", "#ded-sep"];
+
+      gsap.set(elementos, { opacity: 0, y: 25 });
+      gsap.set("#ded-hoja-izq", { opacity: 0, x: -25 });
+
+      ScrollTrigger.create({
+        trigger: "#ded-separador",
+        start: "top 85%",
+        onEnter: () => {
+          gsap.to("#ded-hoja-izq", { opacity: 0.6, x: 0, duration: 1, ease: "power2.out" });
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.15 });
+        },
+        onLeaveBack: () => {
+          gsap.to("#ded-hoja-izq", { opacity: 0, x: -25, duration: 0.4, ease: "power2.in" });
+          gsap.to(elementos, { opacity: 0, y: 25, duration: 0.4, ease: "power2.in" });
+        },
+      });
     });
-    
-    // ANIMACIÓN DE ENTRADA - TODO AL MISMO TIEMPO
-    function animarEntrada() {
-      const tl = gsap.timeline();
-      
-      // Todo aparece simultáneamente con el mismo timing
-      tl.to("#flores-arriba-ded, #texto-ded, #referencia-ded, #flores-abajo-ded", {
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-      })
-      // Animaciones individuales de movimiento (simultáneas)
-      .to("#flores-arriba-ded", {
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-      }, "<")  // "<" significa que empieza al mismo tiempo que la anterior
-      .to("#texto-ded", {
-        scale: 1,
-        duration: 1,
-        ease: "back.out(1.2)",
-      }, "<")
-      .to("#referencia-ded", {
-        scale: 1,
-        duration: 1,
-        ease: "back.out(1.2)",
-      }, "<")
-      .to("#flores-abajo-ded", {
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-      }, "<");
-    }
-    
-    // ANIMACIÓN DE SALIDA - TODO AL MISMO TIEMPO
-    function animarSalida() {
-      const tl = gsap.timeline();
-      
-      // Todo desaparece simultáneamente
-      tl.to("#flores-arriba-ded, #texto-ded, #referencia-ded, #flores-abajo-ded", {
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.in",
-      })
-      // Movimientos individuales (simultáneos)
-      .to("#flores-arriba-ded", {
-        y: -30,
-        duration: 0.5,
-        ease: "power2.in",
-      }, "<")
-      .to("#texto-ded", {
-        scale: 0.9,
-        duration: 0.5,
-        ease: "power2.in",
-      }, "<")
-      .to("#referencia-ded", {
-        scale: 0.9,
-        duration: 0.5,
-        ease: "power2.in",
-      }, "<")
-      .to("#flores-abajo-ded", {
-        y: 30,
-        duration: 0.5,
-        ease: "power2.in",
-      }, "<");
-    }
-  });
+  }
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════ -->
-<!-- 🎨 ESTILOS CSS                                              -->
+<!-- 🎨 ESTILOS                                                  -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <style>
-  /* Asegurar que el texto sea legible en todos los dispositivos */
-  #texto-ded {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Comillas angulares en tono acento */
+  .comilla {
+    color: #A9713F;
+    font-size: 1.15em;
+    line-height: 0;
   }
 
-  #referencia-ded {
-    letter-spacing: 0.05em;
-  }
-
-  /* Ajustes responsivos adicionales */
   @media (max-width: 640px) {
-    section {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
   }
 </style>
