@@ -6,20 +6,20 @@
 <!-- ═══════════════════════════════════════════════════════════ -->
 <section class="relative w-full overflow-hidden px-6 pt-0 pb-10" style="color:#5C4033;">
 
-  <!-- 🌿 Hoja lateral derecha -->
+  <!-- 🌿 Hoja lateral izquierda -->
   <img
     src="/imagenes/hojalateral.png"
     alt="" aria-hidden="true"
-    class="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
-    id="dir-hoja-der"
+    class="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 -ml-3 sm:-ml-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0"
+    id="dir-hoja-izq"
   />
 
-  <!-- 🎡 Decoración lateral izquierda (lateral.png) -->
+  <!-- 🎡 Decoración lateral derecha (lateral.png) -->
   <img
     src="/imagenes/lateral.png"
     alt="" aria-hidden="true"
-    class="pointer-events-none select-none absolute left-0 top-1/2 -translate-y-1/2 -ml-3 sm:-ml-4 w-14 sm:w-16 md:w-20 h-auto object-contain z-0"
-    id="dir-lateral-izq"
+    class="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 -mr-3 sm:-mr-4 w-14 sm:w-16 md:w-20 h-auto object-contain z-0 scale-x-[-1]"
+    id="dir-lateral-der"
   />
 
   <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
@@ -56,7 +56,7 @@
 
     <!-- 🕔 Hora -->
     <p class="font-cormorant font-semibold text-xl sm:text-2xl mb-3" id="dir-hora" style="color:#A9713F;">
-      14:00 hrs
+      15:00 hrs
     </p>
 
     <!-- 🔘 Botón ver ubicación -->
@@ -95,17 +95,17 @@
       const elementos = ["#dir-separador", "#dir-titulo", "#dir-imagen", "#dir-info", "#dir-hora", "#dir-boton", "#dir-sep"];
 
       gsap.set(elementos, { opacity: 0, y: 30 });
-      gsap.set("#dir-lateral-izq", { opacity: 0, x: -30 });
+      gsap.set("#dir-lateral-der", { opacity: 0, x: 30 });
 
       ScrollTrigger.create({
         trigger: "#dir-separador",
         start: "top 85%",
         onEnter: () => {
-          gsap.to("#dir-lateral-izq", { opacity: 1, x: 0, duration: 1, ease: "power2.out" });
+          gsap.to("#dir-lateral-der", { opacity: 1, x: 0, duration: 1, ease: "power2.out" });
           gsap.to(elementos, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.12 });
         },
         onLeaveBack: () => {
-          gsap.to("#dir-lateral-izq", { opacity: 0, x: -30, duration: 0.4, ease: "power2.in" });
+          gsap.to("#dir-lateral-der", { opacity: 0, x: 30, duration: 0.4, ease: "power2.in" });
           gsap.to(elementos, { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" });
         },
       });

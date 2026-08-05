@@ -1,125 +1,151 @@
 ---
-// DireccionSalon.astro (o el nombre que uses)
+// DireccionIglesia.astro
 ---
-<section class="py-2 px-4 relative">
-  <div class="max-w-xl mx-auto text-center relative">
-    
-    <!-- 🏛️ ICONO DIRECCIÓN -->
-    <div class="relative mb-4" id="icono-salon">
-      
-      <!-- ICONO CENTRAL -->
-      <div class="flex justify-center">
-        <img
-          src="/imagenes/IconoDireccion.webp"
-          alt="Icono de dirección"
-          class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain"
-        />
-      </div>
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ⛪ CEREMONIA RELIGIOSA / IGLESIA - ESTILO TEXAS / VAQUERO    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative w-full overflow-hidden px-6 pt-0 pb-10" style="color:#5C4033;">
 
+  <!-- 🌿 Hoja lateral derecha -->
+  <img
+    src="/imagenes/hojalateral.png"
+    alt="" aria-hidden="true"
+    class="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
+    id="igl-hoja-der"
+  />
+
+  <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
+
+    <!-- 🔝 Imagen separador (arriba) -->
+    <div class="mb-5" id="igl-separador">
+      <img
+        src="/imagenes/separador.png"
+        alt=""
+        aria-hidden="true"
+        class="w-32 sm:w-40 h-auto object-contain mx-auto"
+      />
     </div>
-    
-    <!-- TÍTULO DIRECCIÓN -->
-    <div class="mb-2" id="titulo-salon">
-      <h2
-        class="font-charm text-2xl md:text-3xl text-[#C9A961] font-bold tracking-wide"
-      >
-        DIRECCIÓN
-      </h2>
+
+    <!-- 🏷️ Título -->
+    <h2 class="font-cormorant uppercase font-semibold tracking-[0.12em] text-xl sm:text-xl" id="igl-titulo" style="color:#5C4033;">
+      Ceremonia Religiosa
+    </h2>
+
+    <!-- ⛪ Imagen iglesia (tintada) -->
+    <div class="mt-3 mb-5" id="igl-imagen">
+      <div class="img-iglesia w-20 h-20 sm:w-24 sm:h-24 mx-auto" role="img" aria-label="Iglesia"></div>
     </div>
-    
-    <!-- INFORMACIÓN DE UBICACIÓN -->
-    <div class="mb-2" id="info-salon">
-      <p
-        class="font-charm text-xl md:text-lg text-[#626a54] leading-relaxed mb-2"
-      >
-        <b class="text-[#C9A961]">Salón de Eventos Villa Esperanza</b><br />
-        Av. Hernando Siles 7890, esquina<br />
-        Calle Los Pinos, Zona Sur - La Paz
+
+    <!-- 🏛️ Lugar -->
+    <div class="mb-1" id="igl-info">
+      <p class="font-cormorant uppercase font-semibold tracking-wide text-xl sm:text-2xl" style="color:#5C4033;">
+        Iglesia Nueva Vida
+      </p>
+      <p class="font-cormorant text-xl mt-1" style="color:#9C7B58;">
+        Humberto Asín entre Itapaya
       </p>
     </div>
-    
-    <!-- BOTÓN VER UBICACIÓN -->
-    <div class="flex justify-center" id="boton-salon">
-      
-    <a
-        href="https://maps.app.goo.gl/1pKfA6r8iiJbG6F96"
+
+    <!-- 🕔 Hora -->
+    <p class="font-cormorant font-semibold text-xl sm:text-2xl mb-3" id="igl-hora" style="color:#A9713F;">
+      14:00 hrs
+    </p>
+
+    <!-- 🔘 Botón ver ubicación -->
+    <div id="igl-boton">
+      <a
+        href="https://maps.app.goo.gl/a4VA4wnDYmNYpXiz7"
         target="_blank"
         rel="noopener noreferrer"
-    >
-        <img
-        src="/imagenes/VerUbicacion.webp"
-        alt="Ver ubicación en el mapa"
-        class="w-56 md:w-56 lg:w-64 h-auto object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
-        />
-    </a>
+        class="btn-ubicacion inline-block font-cormorant uppercase tracking-[0.18em] text-sm sm:text-base font-semibold px-8 py-2.5"
+      >
+        Ver Ubicación
+      </a>
+    </div>
+
+    <!-- ✦ Estrella separadora -->
+    <div class="flex items-center justify-center gap-3 w-full max-w-[200px] mx-auto mt-8" id="igl-sep">
+      <span class="sep-linea sep-linea-izq" aria-hidden="true"></span>
+      <span class="sep-estrella" aria-hidden="true">✦</span>
+      <span class="sep-linea sep-linea-der" aria-hidden="true"></span>
     </div>
 
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎬 ANIMACIONES CON GSAP                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  
+
   gsap.registerPlugin(ScrollTrigger);
 
   if (typeof window !== "undefined") {
     document.addEventListener("DOMContentLoaded", () => {
-      // Estado inicial
-      gsap.set("#icono-salon", { opacity: 0, scale: 0.8 });
-      gsap.set("#titulo-salon", { opacity: 0, scale: 0.9 });
-      gsap.set("#info-salon", { opacity: 0, scale: 0.9 });
-      gsap.set("#boton-salon", { opacity: 0, scale: 0.9 });
+      const elementos = ["#igl-separador", "#igl-titulo", "#igl-imagen", "#igl-info", "#igl-hora", "#igl-boton", "#igl-sep"];
 
-      // ✨ ANIMACIÓN SIMULTÁNEA - TODO AL MISMO TIEMPO
+      gsap.set(elementos, { opacity: 0, y: 30 });
+
       ScrollTrigger.create({
-        trigger: "#icono-salon",
+        trigger: "#igl-separador",
         start: "top 85%",
-        end: "top 20%",
         onEnter: () => {
-          const tl = gsap.timeline();
-          
-          // TODO aparece al mismo tiempo
-          tl.to("#icono-salon, #titulo-salon, #info-salon, #boton-salon", {
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out",
-          })
-          // Animaciones individuales (simultáneas)
-          .to("#icono-salon", {
-            scale: 1,
-            duration: 1,
-            ease: "back.out(1.5)",
-          }, "<")
-          .to("#titulo-salon, #info-salon, #boton-salon", {
-            scale: 1,
-            duration: 1,
-            ease: "back.out(1.2)",
-          }, "<");
+          gsap.to(elementos, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", stagger: 0.12 });
         },
         onLeaveBack: () => {
-          // Salida simultánea
-          const tl = gsap.timeline();
-          
-          tl.to("#icono-salon, #titulo-salon, #info-salon, #boton-salon", {
-            opacity: 0,
-            duration: 0.5,
-            ease: "power2.in",
-          })
-          .to("#icono-salon", {
-            scale: 0.8,
-            duration: 0.5,
-            ease: "power2.in",
-          }, "<")
-          .to("#titulo-salon, #info-salon, #boton-salon", {
-            scale: 0.9,
-            duration: 0.5,
-            ease: "power2.in",
-          }, "<");
+          gsap.to(elementos, { opacity: 0, y: 30, duration: 0.4, ease: "power2.in" });
         },
       });
 
-      console.log("🎉 Sección de Salón inicializada");
+      // Leve flotación continua de la imagen
+      gsap.to("#igl-imagen .img-iglesia", { y: -5, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1 });
     });
   }
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 🎨 ESTILOS                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<style>
+  /* Imagen de iglesia tintada (beige) */
+  .img-iglesia {
+    background-color: #9C7B58;
+    -webkit-mask: url("/imagenes/iglesia.png") center / contain no-repeat;
+    mask: url("/imagenes/iglesia.png") center / contain no-repeat;
+  }
+
+  /* Botón ver ubicación */
+  .btn-ubicacion {
+    color: #FFF8F0;
+    border: 1.5px solid #9C7B58;
+    border-radius: 9999px;
+    background: #9C7B58;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+  .btn-ubicacion:hover {
+    background: #8B6B4A;
+    border-color: #8B6B4A;
+    transform: translateY(-2px);
+  }
+
+  /* Separador con estrella */
+  .sep-linea {
+    flex: 1 1 0%;
+    height: 1px;
+    opacity: 0.6;
+  }
+  .sep-linea-izq { background: linear-gradient(to right, transparent, #A9713F); }
+  .sep-linea-der { background: linear-gradient(to left, transparent, #A9713F); }
+  .sep-estrella {
+    color: #A9713F;
+    font-size: 0.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
