@@ -4,26 +4,17 @@
 <!-- ═══════════════════════════════════════════════════════════ -->
 <!-- ✅ CONFIRMACIÓN / RSVP - ESTILO TEXAS / VAQUERO             -->
 <!-- ═══════════════════════════════════════════════════════════ -->
-<section class="relative w-full overflow-hidden px-6 pt-6 pb-6" style="color:#5C4033;">
+<section class="relative w-full overflow-hidden px-6 pt-12 pb-6" style="color:#5C4033;">
 
   <!-- 🌿 Hoja lateral derecha -->
   <img
     src="/imagenes/hojalateral.png"
     alt="" aria-hidden="true"
-    class="pointer-events-none select-none absolute right-0 top-[62%] -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
+    class="pointer-events-none select-none absolute right-0 top-[38%] -translate-y-1/2 -mr-3 sm:-mr-4 w-16 sm:w-20 h-auto object-contain opacity-70 z-0 scale-x-[-1]"
     id="desp-hoja"
   />
 
   <div class="max-w-md mx-auto text-center flex flex-col items-center relative z-10">
-
-    <!-- ✦ Separador superior -->
-    <div class="mb-6" id="desp-separador" aria-hidden="true">
-      <img
-        src="/imagenes/separador2.png"
-        alt=""
-        class="w-2/3 sm:w-3/5 h-auto object-contain mx-auto"
-      />
-    </div>
 
     <!-- Título -->
     <h2 class="font-cormorant uppercase font-semibold tracking-[0.28em] text-xl pl-[0.28em]" id="desp-titulo" style="color:#5C4033;">
@@ -31,13 +22,9 @@
     </h2>
 
     <!-- Mensaje -->
-    <div class="font-cormorant text-xl leading-relaxed mt-5 max-w-sm mx-auto flex flex-col gap-4" id="desp-mensaje" style="color:#6B4A31;">
-      <p>🤍 Estamos organizando cada detalle con mucho cariño.</p>
-      <p>💍 Cada detalle de nuestra boda ha sido preparado con mucho amor, y tu presencia haría este día aún más especial.</p>
-      <p class="desp-destacado font-semibold" style="color:#5C4033;">
-        Por favor, ayúdanos confirmando tu asistencia antes del<br /> <strong class="font-bold text-2xl" style="color:#A9713F;">20 de agosto</strong> <br/>para reservar tu lugar
-      </p>
-    </div>
+    <p class="font-cormorant text-lg leading-relaxed mt-5 max-w-sm mx-auto" id="desp-mensaje" style="color:#6B4A31;">
+      Agradecemos confirmar su asistencia antes del 20 de agosto.
+    </p>
 
     <!-- Botón confirmar -->
     <div class="mt-8" id="desp-boton">
@@ -65,12 +52,12 @@
 
   if (typeof window !== "undefined") {
     document.addEventListener("DOMContentLoaded", () => {
-      const elementos = ["#desp-separador", "#desp-titulo", "#desp-mensaje", "#desp-boton"];
+      const elementos = ["#desp-titulo", "#desp-mensaje", "#desp-boton"];
       gsap.set(elementos, { opacity: 0, y: 25 });
       gsap.set("#desp-hoja", { opacity: 0, x: 30 });
 
       ScrollTrigger.create({
-        trigger: "#desp-separador",
+        trigger: "#desp-titulo",
         start: "top 85%",
         onEnter: () => {
           gsap.to("#desp-hoja", { opacity: 0.7, x: 0, y: 0, duration: 1, ease: "power2.out" });
@@ -89,15 +76,6 @@
 <!-- 🎨 ESTILOS                                                  -->
 <!-- ═══════════════════════════════════════════════════════════ -->
 <style>
-  /* Párrafo destacado (llamado a confirmar) */
-  .desp-destacado {
-    background: rgba(169, 113, 63, 0.10);
-    border: 1px solid rgba(169, 113, 63, 0.35);
-    border-radius: 0.75rem;
-    padding: 0.9rem 1.1rem;
-    margin-top: 0.25rem;
-  }
-
   .btn-confirmar {
     color: #FFF8F0;
     background: #9C7B58;
